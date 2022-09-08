@@ -15,6 +15,12 @@
         android:title="Eraser"/>
 
     <item
+        android:id="@+id/save"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="Eraser"/>
+
+    <item
         android:id="@+id/clear"
         app:showAsAction="always"
         android:icon="@drawable/ic_delete_white"

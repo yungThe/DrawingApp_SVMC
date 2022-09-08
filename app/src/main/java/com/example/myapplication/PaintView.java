@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class PaintView extends View {
 
     public int BRUSH_SIZE = 10;
-    public static final int COLOR_PEN = Color.RED;
+    public static final int COLOR_PEN = Color.BLACK;
     public static final int COLOR_ERASER = Color.WHITE;
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
@@ -64,10 +64,12 @@ public class PaintView extends View {
     }
 
     public void pen(){
+        BRUSH_SIZE = 10;
         currentColor = COLOR_PEN;
     }
 
     public void eraser(){
+        BRUSH_SIZE = 300;
         currentColor = COLOR_ERASER;
     }
 
@@ -78,7 +80,7 @@ public class PaintView extends View {
     }
 
     public void importPhoto(){
-        
+
     }
 
     @Override
