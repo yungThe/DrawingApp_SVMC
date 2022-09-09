@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
                 //paintView.clear();
                 //Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
                 //return true;
+            case R.id.save:
+                paintView.save();
+                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
 
