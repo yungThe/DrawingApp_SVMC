@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/back"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_subdirectory_arrow_left_24"
+        android:title="Reverse"/>
+
+    <item
         android:id="@+id/pen"
         app:showAsAction="always"
         android:icon="@drawable/ic_brush_white"

@@ -91,7 +91,6 @@ public class PaintView extends View {
     }
 
     private void SaveImage(Bitmap finalBitmap) {
-
         String root = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES).toString();
         File myDir = new File(root + "/saved_images");
@@ -126,9 +125,18 @@ public class PaintView extends View {
                     }
                 });
     }
-     public void save(){
+
+    public void save(){
         SaveImage(mBitmap);
-     }
+    }
+
+    public void imageReverse(){
+        mPath.reset();
+        pen();
+        invalidate();
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();

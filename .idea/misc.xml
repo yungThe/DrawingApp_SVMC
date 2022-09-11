@@ -6,13 +6,15 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.25092592592592594" />
         <entry key="app/src/main/res/drawable/ic_baseline_photo_library_24.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_baseline_subdirectory_arrow_left_24.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/ic_brush_white.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_delete_white.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_eraser_white.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.172" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/import_photo.xml" value="0.30867892261650276" />
-        <entry key="app/src/main/res/layout/photo.xml" value="0.231722958529286" />
-        <entry key="app/src/main/res/menu/options_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/photo.xml" value="0.2850677490234375" />
+        <entry key="app/src/main/res/menu/options_menu.xml" value="0.2923309326171875" />
       </map>
     </option>
   </component>
