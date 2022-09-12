@@ -47,9 +47,7 @@ public class PaintView extends View {
 
     public PaintView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
         mPaint = new Paint();
-
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(COLOR_PEN);
@@ -76,6 +74,7 @@ public class PaintView extends View {
     }
 
     public void eraser(){
+
         BRUSH_SIZE = 300;
         currentColor = COLOR_ERASER;
     }
