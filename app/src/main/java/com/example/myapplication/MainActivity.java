@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.back:
                 paintView.imageReverse();
-                Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
 
                 return true;
         }
