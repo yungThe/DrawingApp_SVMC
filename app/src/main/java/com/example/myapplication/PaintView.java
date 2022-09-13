@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -85,8 +87,19 @@ public class PaintView extends View {
         invalidate();
     }
 
-    public void importPhoto(){
+    public void importPhoto(Uri url_value ){
 
+        Bitmap newBitmap = null;
+        try {
+            newBitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), url_value);
+            mCanvas = new Canvas(newBitmap.copy(Bitmap.Config.ARGB_8888, true));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Context getApplicationContext() {
+        return this.getContext();
     }
 
     private void SaveImage(Bitmap finalBitmap) {
