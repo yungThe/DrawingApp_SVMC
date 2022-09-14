@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +31,13 @@ public class AddPhoto extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && data != null){
             Uri selectedImage = data.getData();
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageURI(selectedImage);
+//            ImageView imageView = findViewById(R.id.imageView);
+//            imageView.setImageURI(selectedImage);
+
+            //tạo intent và gửi cho main
+            Intent intent=new Intent(this, MainActivity.class);
+            intent.putExtra("Uri",selectedImage);
+            startActivity(intent);
         }
     }
 }

@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
 
         paintView = findViewById(R.id.paint_view);
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         paintView.init(metrics);
+
     }
 
     @Override
@@ -53,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
                 return true;
 
+
+            case R.id.photo :
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+                 return true;
+
             case R.id.save:
                 paintView.save();
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
@@ -67,5 +78,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
+        if(requestCode==1 && resultCode == RESULT_OK && data != null){
+
+
+            //lấy Uri của hình ảnh đã chọn
+            Uri url_value = data.getData();
+
+            //thông báo
+            Toast.makeText(this, url_value.toString(), Toast.LENGTH_LONG).show();
+            //mở bitmap bằng hình ảnh
+
+
+            try {
+                paintView.importPhoto(url_value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }else {
+            // DetailActivity không thành công, không có data trả về.
+        }
     }
 }
