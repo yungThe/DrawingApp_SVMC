@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
                 return true;
 
-            //case R.id.photo :
-                //paintView.clear();
-                //Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
-                //return true;
+            case R.id.photo :
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+                 return true;
             case R.id.save:
                 paintView.save();
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
-        if(resultCode == RESULT_OK && data != null){
+        if(requestCode==1 && resultCode == RESULT_OK && data != null){
 
 
             //lấy Uri của hình ảnh đã chọn
