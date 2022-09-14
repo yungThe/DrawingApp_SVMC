@@ -21,22 +21,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = this.getIntent();
-        Uri selectedImage = intent.getData();
-        String message = intent.getStringExtra("Uri");
-        //Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        
         setContentView(R.layout.activity_main);
 
         paintView = findViewById(R.id.paint_view);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        if(selectedImage !=null){
-            Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_SHORT).show();            paintView.importPhoto(selectedImage);
-        }else{
-            paintView.init(metrics);
-        }
+        paintView.init(metrics);
 
     }
 
@@ -65,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
                 return true;
 
+
             case R.id.photo :
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, 1);
                  return true;
+
             case R.id.save:
                 paintView.save();
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
@@ -77,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.back:
                 paintView.imageReverse();
-                Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
 
                 return true;
         }

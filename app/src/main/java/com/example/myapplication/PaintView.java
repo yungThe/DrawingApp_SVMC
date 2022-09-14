@@ -37,6 +37,7 @@ public class PaintView extends View {
     private Paint mPaint;
     private int currentColor;
     private ArrayList<FingerPath> paths = new ArrayList<>();
+    private int pathIndex = -1;
 
     private Bitmap mBitmap;
     private Canvas mCanvas;
@@ -83,6 +84,7 @@ public class PaintView extends View {
 
     public void clear(){
         paths.clear();
+        pathIndex = -1;
         pen();
         invalidate();
     }
@@ -163,9 +165,15 @@ public class PaintView extends View {
     }
 
     public void imageReverse(){
-        mPath.reset();
-        pen();
-        invalidate();
+        if(!paths.isEmpty()) {
+            paths.remove(pathIndex);
+            pathIndex--;
+            pen();
+            invalidate();
+        }
+        else{
+            pen();
+        }
     }
 
 
@@ -190,7 +198,7 @@ public class PaintView extends View {
         mPath = new Path();
         FingerPath fp = new FingerPath(currentColor, BRUSH_SIZE, mPath);
         paths.add(fp);
-
+        pathIndex++;
         mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
