@@ -87,13 +87,33 @@ public class PaintView extends View {
         invalidate();
     }
 
-    public void importPhoto(Uri url_value ){
+   public void importPhoto(Uri url_value ){
 
-        Bitmap newBitmap = null;
+        Bitmap tempBitmap;
         try {
-            newBitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), url_value);
-            mCanvas = new Canvas(newBitmap.copy(Bitmap.Config.ARGB_8888, true));
-        } catch (IOException e) {
+            //tempBitmap is Immutable bitmap,
+            //cannot be passed to Canvas constructor
+            tempBitmap = BitmapFactory.decodeStream(
+                    getContentResolver().openInputStream(url_value));
+
+            Bitmap.Config config;
+            if(tempBitmap.getConfig() != null){
+                config = tempBitmap.getConfig();
+            }else{
+                config = Bitmap.Config.ARGB_8888;
+            }
+
+            //bitmapMaster is Mutable bitmap
+            mBitmap = Bitmap.createBitmap(
+                    tempBitmap.getWidth(),
+                    tempBitmap.getHeight(),
+                    config);
+
+            mCanvas = new Canvas(mBitmap);
+            mCanvas.drawBitmap(tempBitmap, 0, 0, null);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
