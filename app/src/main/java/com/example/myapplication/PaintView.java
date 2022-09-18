@@ -75,13 +75,13 @@ public class PaintView extends View {
     }
 
     public void pen(){
-        BRUSH_SIZE = 10;
+        //BRUSH_SIZE = 10;
         currentColor = COLOR_PEN;
     }
 
     public void eraser(){
 
-        BRUSH_SIZE = 200;
+        //BRUSH_SIZE = 200;
         currentColor = COLOR_ERASER;
     }
 
