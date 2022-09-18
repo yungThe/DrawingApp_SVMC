@@ -92,35 +92,35 @@ public class PaintView extends View {
         invalidate();
     }
 
-
     public void importPhoto(Uri url_value ){
-        Bitmap tempBitmap;
 
+        Bitmap tempBitmap;
         try {
             //tempBitmap is Immutable bitmap,
             //cannot be passed to Canvas constructor
             tempBitmap = BitmapFactory.decodeStream(
                     getContentResolver().openInputStream(url_value));
+
             Bitmap.Config config;
             if(tempBitmap.getConfig() != null){
                 config = tempBitmap.getConfig();
-                //mCanvas.drawBitmap(tempBitmap, 0, 0, null);
             }else{
                 config = Bitmap.Config.ARGB_8888;
             }
+
             //bitmapMaster is Mutable bitmap
             mBitmap = Bitmap.createBitmap(
                     tempBitmap.getWidth(),
                     tempBitmap.getHeight(),
                     config);
+
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawBitmap(tempBitmap, 0, 0, null);
+
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-
     }
 
     private ContentResolver getContentResolver() {
@@ -134,9 +134,10 @@ public class PaintView extends View {
     private void SaveImage(Bitmap finalBitmap) {
         String root = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES).toString();
-        File myDir = new File(root + "/Draw_Project");
+        File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
         Random generator = new Random();
+
         int n = 10000;
         n = generator.nextInt(n);
         String fname = "Image-"+ n +".jpg";
@@ -149,6 +150,7 @@ public class PaintView extends View {
             //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
             out.flush();
             out.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,6 +158,7 @@ public class PaintView extends View {
         // immediately available to the user.
         MediaScannerConnection.scanFile(getContext(), new String[]{file.toString()}, null,
                 new MediaScannerConnection.OnScanCompletedListener() {
+
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
                         Log.i("ExternalStorage", "Scanned " + path + ":");
