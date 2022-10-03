@@ -74,6 +74,15 @@ public class PaintView extends View {
 
         currentColor = COLOR_PEN;
     }
+ public void init(int width , int height ){
+        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
+        //nên thay màu bitmap khác với màu nền đi
+
+        mCanvas.drawColor(-1);
+
+        currentColor = COLOR_PEN;
+    }
 
     public void pen(){
         //BRUSH_SIZE = 10;
