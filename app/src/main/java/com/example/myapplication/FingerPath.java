@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import android.graphics.Path;
 
-public class FingerPath {
+public class FingerPath extends Path {
 
     private int color;
     private int strokeWidth;

@@ -4,49 +4,38 @@
 
     <item
         android:id="@+id/back"
-        app:showAsAction="always"
+        app:showAsAction="always|withText"
         android:icon="@drawable/ic_baseline_subdirectory_arrow_left_24"
         android:title="Reverse"/>
-
     <item
-        android:id="@+id/pen"
+        android:id="@+id/color_black"
+        android:icon="@drawable/ic_baseline_circle_black_24"
         app:showAsAction="always"
-        android:icon="@drawable/ic_brush_white"
-        android:title="Pen">
-        <menu>
-            <item
-                android:id="@+id/color_black"
-                android:title="Black"
-                app:showAsAction="never"
-                />
-            <item
-                android:id="@+id/color_red"
-                android:title="Red"
-                app:showAsAction="never"
-                />
-            <item
-                android:id="@+id/color_yellow"
-                android:title="Yellow"
-                app:showAsAction="never"
-                />
-            <item
-                android:id="@+id/color_green"
-                android:title="Green"
-                app:showAsAction="never"
-                />
-            <item
-                android:id="@+id/color_blue"
-                android:title="Blue"
-                app:showAsAction="never"
-                />
-        </menu>
-    </item>
-
+        android:title="Black" />
     <item
-        android:id="@+id/eraser"
+        android:id="@+id/color_red"
+        android:icon="@drawable/ic_baseline_circle_red_24"
         app:showAsAction="always"
-        android:icon="@drawable/ic_eraser_white"
-        android:title="Eraser"/>
+        android:title="Red" />
+    <item
+        android:id="@+id/color_green"
+        android:icon="@drawable/ic_baseline_circle_green_24"
+        app:showAsAction="always"
+        android:title="Red" />
+    <item
+        android:id="@+id/color_yellow"
+        android:icon="@drawable/ic_baseline_circle_yellow_24"
+        app:showAsAction="always"
+        android:title="Yellow" />
+    <item
+        android:id="@+id/color_blue"
+        android:icon="@drawable/ic_baseline_circle_blue_24"
+        app:showAsAction="always"
+        android:title="Blue" />
+
+
+
+
 
     <item
         android:id="@+id/save"
@@ -54,11 +43,7 @@
         android:icon="@drawable/ic_baseline_save_24"
         android:title="Eraser"/>
 
-    <item
-        android:id="@+id/clear"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_delete_white"
-        android:title="Clear"/>
+
 
     <item
         android:id="@+id/photo"

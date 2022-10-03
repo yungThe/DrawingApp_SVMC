@@ -3,6 +3,9 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -12,22 +15,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     private PaintView paintView;
     private AddPhoto addPhoto;
-
+    public static final int PICK_IMAGE = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        //LayoutInflater layoutInflater = getLayoutInflater();
-        //layoutInflater.inflate(R.layout.change_draw_specs);
         SeekBar seekbar = findViewById(R.id.seek_bar);
         seekbar.setMax(200);
         seekbar.setProgress(10);
@@ -39,12 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         paintView = findViewById(R.id.paint_view);
@@ -55,8 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.options_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -66,26 +73,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.pen:
-                paintView.pen();
-                Toast.makeText(this, "Pen Active!", Toast.LENGTH_SHORT).show();
-                return true;
 
-            case R.id.eraser:
-                paintView.eraser();
-                Toast.makeText(this, "Eraser Active!", Toast.LENGTH_SHORT).show();
-                return true;
 
-            case R.id.clear:
-                paintView.clear();
-                Toast.makeText(this, "Canvas Empty!", Toast.LENGTH_SHORT).show();
-                return true;
+
 
 
             case R.id.photo:
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, PICK_IMAGE);
 
                 return true;
 
@@ -133,29 +129,55 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
+        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            try{
+                //lấy Uri của hình ảnh đã chọn
+                Uri url_value = data.getData();
+                //mở bitmap bằng hình ảnh
+                //paintView.importPhoto(url_value);
+                Bitmap tempBitmap;
+                try {
+                    //tempBitmap is Immutable bitmap,
+                    //cannot be passed to Canvas constructor
+                    InputStream img = getContentResolver().openInputStream(url_value);
+                    tempBitmap = BitmapFactory.decodeStream(img);
+                    Bitmap.Config config;
+                    if(tempBitmap.getConfig() != null){
+                        config = tempBitmap.getConfig();
+                    }else{
+                        config = Bitmap.Config.ARGB_8888;
+                    }
+                    //bitmapMaster is Mutable bitmap
+                    Bitmap mBitmap = Bitmap.createBitmap(
+                            tempBitmap.getWidth(),
+                            tempBitmap.getHeight(),
+                            config);
+                    //paintView.mCanvas = new Canvas(mBitmap);
+                    //paintView.resetPath();
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+                    //paintView.clear();
 
+                    paintView.mCanvas.drawBitmap(tempBitmap, 0,0, null);
 
-            //lấy Uri của hình ảnh đã chọn
-            Uri url_value = data.getData();
+                    //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    //paintView.mCanvas = new Canvas(mBitmap);
+                    //paintView.mCanvas.restore();
 
-            //thông báo
-            Toast.makeText(this, url_value.toString(), Toast.LENGTH_LONG).show();
-            //mở bitmap bằng hình ảnh
-
-
-            try {
-                paintView.importPhoto(url_value);
+                    paintView.pen();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-        } else {
-            // DetailActivity không thành công, không có data trả về.
         }
+        else{
+
+        }
+
     }
+
+
 }

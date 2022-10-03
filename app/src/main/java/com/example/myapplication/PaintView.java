@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -43,7 +44,7 @@ public class PaintView extends View {
     private int pathIndex = -1;
 
     private Bitmap mBitmap;
-    private Canvas mCanvas;
+    public Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
 
@@ -87,6 +88,7 @@ public class PaintView extends View {
 
     public void clear(){
         paths.clear();
+        mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         pathIndex = -1;
         pen();
         invalidate();
@@ -174,6 +176,9 @@ public class PaintView extends View {
     public void imageReverse(){
         if(!paths.isEmpty()) {
             paths.remove(pathIndex);
+            mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            //for(int i=0;i<paths.size();i++) mCanvas.drawPath(paths.get(i), mPaint);
+            //mCanvas.restore();
             pathIndex--;
             pen();
             invalidate();
@@ -187,7 +192,7 @@ public class PaintView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
-        mCanvas.drawColor(DEFAULT_BG_COLOR);
+        mCanvas.drawColor(Color.TRANSPARENT);
 
         for (FingerPath fp : paths){
             mPaint.setColor(fp.getColor());
