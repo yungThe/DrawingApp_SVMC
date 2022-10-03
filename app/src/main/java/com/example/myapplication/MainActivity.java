@@ -145,24 +145,14 @@ public class MainActivity extends AppCompatActivity {
                     //cannot be passed to Canvas constructor
                     InputStream img = getContentResolver().openInputStream(url_value);
                     tempBitmap = BitmapFactory.decodeStream(img);
-                    Bitmap.Config config;
-                    if(tempBitmap.getConfig() != null){
-                        config = tempBitmap.getConfig();
-                    }else{
-                        config = Bitmap.Config.ARGB_8888;
-                    }
-                    //bitmapMaster is Mutable bitmap
-                    Bitmap mBitmap = Bitmap.createBitmap(
-                            tempBitmap.getWidth(),
-                            tempBitmap.getHeight(),
-                            config);
-                    //paintView.mCanvas = new Canvas(mBitmap);
-                    //paintView.resetPath();
-
-                    //paintView.clear();
                     paintView.clear();
                     nBitmap = tempBitmap;
+                    paintView.init(tempBitmap.getWidth(),tempBitmap.getHeight() );
                     paintView.mCanvas.drawBitmap(tempBitmap, 0,0, null);
+                    
+                     
+                   
+
 
                     //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                     //paintView.mCanvas = new Canvas(mBitmap);
