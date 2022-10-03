@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private PaintView paintView;
     private AddPhoto addPhoto;
     public static final int PICK_IMAGE = 102;
-
+    private Bitmap nBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.back:
                 paintView.imageReverse();
+                if(nBitmap != null) {
+                    paintView.mCanvas.drawBitmap(nBitmap, 0, 0, null);
+                }
                 //Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.color_black:
@@ -157,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
                     //paintView.resetPath();
 
                     //paintView.clear();
-
+                    paintView.clear();
+                    nBitmap = tempBitmap;
                     paintView.mCanvas.drawBitmap(tempBitmap, 0,0, null);
 
                     //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);

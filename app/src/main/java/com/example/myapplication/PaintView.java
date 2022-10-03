@@ -40,7 +40,7 @@ public class PaintView extends View {
     private Path mPath;
     private Paint mPaint;
     private int currentColor;
-    private ArrayList<FingerPath> paths = new ArrayList<>();
+    public ArrayList<FingerPath> paths = new ArrayList<>();
     private int pathIndex = -1;
 
     private Bitmap mBitmap;
