@@ -94,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.back:
                 paintView.imageReverse();
                 if(nBitmap != null) {
-                    paintView.mCanvas.drawBitmap(nBitmap, 0, 0, null);
+                    float centreX = (paintView.mCanvas.getWidth()-nBitmap.getWidth()) / 2;
+                    float centreY = (paintView.mCanvas.getHeight()-nBitmap.getHeight()) / 2;
+                    Bitmap.Config config;
+                    config = nBitmap.getConfig();
+
+                    paintView.mCanvas.drawBitmap(nBitmap, centreX, centreY, null);
                 }
                 //Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
                 return true;
@@ -152,17 +157,21 @@ public class MainActivity extends AppCompatActivity {
                         config = Bitmap.Config.ARGB_8888;
                     }
                     //bitmapMaster is Mutable bitmap
-                    Bitmap mBitmap = Bitmap.createBitmap(
-                            tempBitmap.getWidth(),
-                            tempBitmap.getHeight(),
-                            config);
+
                     //paintView.mCanvas = new Canvas(mBitmap);
                     //paintView.resetPath();
 
                     //paintView.clear();
                     paintView.clear();
-                    nBitmap = tempBitmap;
-                    paintView.mCanvas.drawBitmap(tempBitmap, 0,0, null);
+                    nBitmap = Bitmap.createScaledBitmap(tempBitmap,paintView.mCanvas.getWidth(),paintView.mCanvas.getHeight(),false);
+
+                    float h = paintView.mCanvas.getHeight();
+                    float w = paintView.mCanvas.getWidth();
+                    float centreX = (paintView.mCanvas.getWidth()-nBitmap.getWidth()) / 2;
+                    float centreY = (paintView.mCanvas.getHeight()-nBitmap.getHeight()) / 2;
+                    paintView.init2(nBitmap.getWidth(),nBitmap.getHeight());
+                    paintView.mCanvas.drawBitmap(nBitmap, centreX,centreY, null);
+                    paintView.mBitmap.setConfig(nBitmap.getConfig());
 
                     //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                     //paintView.mCanvas = new Canvas(mBitmap);

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/back"
-        app:showAsAction="always|withText"
+        app:showAsAction="always"
         android:icon="@drawable/ic_baseline_subdirectory_arrow_left_24"
         android:title="Reverse"/>
     <item
@@ -32,25 +32,16 @@
         android:icon="@drawable/ic_baseline_circle_blue_24"
         app:showAsAction="always"
         android:title="Blue" />
-
-
-
-
-
     <item
         android:id="@+id/save"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_save_24"
         android:title="Eraser"/>
-
-
-
     <item
         android:id="@+id/photo"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_image_24"
         android:title="Clear"/>
-    
 
 
 </menu>

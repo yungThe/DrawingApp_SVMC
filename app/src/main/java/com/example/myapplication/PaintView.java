@@ -43,7 +43,7 @@ public class PaintView extends View {
     public ArrayList<FingerPath> paths = new ArrayList<>();
     private int pathIndex = -1;
 
-    private Bitmap mBitmap;
+    public Bitmap mBitmap;
     public Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
@@ -74,7 +74,15 @@ public class PaintView extends View {
 
         currentColor = COLOR_PEN;
     }
+    public void init2(int width , int height ){
+        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
+        //nên thay màu bitmap khác với màu nền đi
 
+        mCanvas.drawColor(-1);
+
+        currentColor = COLOR_PEN;
+    }
     public void pen(){
         //BRUSH_SIZE = 10;
         currentColor = COLOR_PEN;
@@ -111,10 +119,8 @@ public class PaintView extends View {
             }
 
             //bitmapMaster is Mutable bitmap
-            mBitmap = Bitmap.createBitmap(
-                    tempBitmap.getWidth(),
-                    tempBitmap.getHeight(),
-                    config);
+
+
 
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawBitmap(tempBitmap, 0, 0, null);
