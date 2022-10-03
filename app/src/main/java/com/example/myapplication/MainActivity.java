@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     //cannot be passed to Canvas constructor
                     InputStream img = getContentResolver().openInputStream(url_value);
                     tempBitmap = BitmapFactory.decodeStream(img);
+
                     Bitmap.Config config;
                     if(tempBitmap.getConfig() != null){
                         config = tempBitmap.getConfig();
@@ -172,6 +173,12 @@ public class MainActivity extends AppCompatActivity {
                     paintView.init2(nBitmap.getWidth(),nBitmap.getHeight());
                     paintView.mCanvas.drawBitmap(nBitmap, centreX,centreY, null);
                     paintView.mBitmap.setConfig(nBitmap.getConfig());
+
+                    
+                     
+                   
+
+
 
                     //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                     //paintView.mCanvas = new Canvas(mBitmap);
