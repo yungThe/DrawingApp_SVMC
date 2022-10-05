@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private AddPhoto addPhoto;
     public static final int PICK_IMAGE = 102;
     private Bitmap nBitmap;
+    private String strFileName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
         paintView = findViewById(R.id.paint_view);
@@ -55,15 +58,10 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         paintView.init(metrics);
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.options_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -74,17 +72,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-
-
-
-
             case R.id.photo:
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE);
-
                 return true;
-
 
             case R.id.save:
                 paintView.save();
@@ -98,21 +90,25 @@ public class MainActivity extends AppCompatActivity {
                     float centreY = (paintView.mCanvas.getHeight()-nBitmap.getHeight()) / 2;
                     Bitmap.Config config;
                     config = nBitmap.getConfig();
-
                     paintView.mCanvas.drawBitmap(nBitmap, centreX, centreY, null);
                 }
                 //Toast.makeText(this, "Reversed!", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.redo:
+                paintView.redo();
                 return true;
             case R.id.color_black:
                 Toast.makeText(this, "Black", Toast.LENGTH_SHORT).show();
                 paintView.COLOR_PEN = Color.BLACK;
                 paintView.pen();
                 return true;
+
             case R.id.color_red:
                 Toast.makeText(this, "Red", Toast.LENGTH_SHORT).show();
                 paintView.COLOR_PEN = Color.RED;
                 paintView.pen();
                 return true;
+
             case R.id.color_yellow:
                 Toast.makeText(this, "Yellow", Toast.LENGTH_SHORT).show();
                 paintView.COLOR_PEN = Color.YELLOW;
@@ -124,45 +120,37 @@ public class MainActivity extends AppCompatActivity {
                 paintView.COLOR_PEN = Color.BLUE;
                 paintView.pen();
                 return true;
+
             case R.id.color_green:
                 Toast.makeText(this, "Green", Toast.LENGTH_SHORT).show();
                 paintView.COLOR_PEN = Color.GREEN;
                 paintView.pen();
                 return true;
-        }
 
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
         if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             try{
-                //lấy Uri của hình ảnh đã chọn
                 Uri url_value = data.getData();
-                //mở bitmap bằng hình ảnh
-                //paintView.importPhoto(url_value);
+
+                String dir = url_value.toString();
+                strFileName = dir.substring(dir.lastIndexOf("/") + 1);
+
                 Bitmap tempBitmap;
                 try {
-                    //tempBitmap is Immutable bitmap,
-                    //cannot be passed to Canvas constructor
                     InputStream img = getContentResolver().openInputStream(url_value);
                     tempBitmap = BitmapFactory.decodeStream(img);
-
                     Bitmap.Config config;
                     if(tempBitmap.getConfig() != null){
                         config = tempBitmap.getConfig();
                     }else{
                         config = Bitmap.Config.ARGB_8888;
                     }
-                    //bitmapMaster is Mutable bitmap
-
-                    //paintView.mCanvas = new Canvas(mBitmap);
-                    //paintView.resetPath();
-
-                    //paintView.clear();
                     paintView.clear();
                     nBitmap = Bitmap.createScaledBitmap(tempBitmap,paintView.mCanvas.getWidth(),paintView.mCanvas.getHeight(),false);
 
@@ -170,20 +158,10 @@ public class MainActivity extends AppCompatActivity {
                     float w = paintView.mCanvas.getWidth();
                     float centreX = (paintView.mCanvas.getWidth()-nBitmap.getWidth()) / 2;
                     float centreY = (paintView.mCanvas.getHeight()-nBitmap.getHeight()) / 2;
+
                     paintView.init2(nBitmap.getWidth(),nBitmap.getHeight());
                     paintView.mCanvas.drawBitmap(nBitmap, centreX,centreY, null);
                     paintView.mBitmap.setConfig(nBitmap.getConfig());
-
-                    
-                     
-                   
-
-
-
-                    //paintView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                    //paintView.mCanvas = new Canvas(mBitmap);
-                    //paintView.mCanvas.restore();
-
                     paintView.pen();
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
@@ -196,8 +174,5 @@ public class MainActivity extends AppCompatActivity {
         else{
 
         }
-
     }
-
-
 }

@@ -35,18 +35,16 @@ public class PaintView extends View {
     public static final int COLOR_ERASER = Color.WHITE;
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
-
     private float mX, mY;
     private Path mPath;
     private Paint mPaint;
     private int currentColor;
     public ArrayList<FingerPath> paths = new ArrayList<>();
+    public ArrayList<FingerPath> deletedPaths = new ArrayList<>();
     private int pathIndex = -1;
-
     public Bitmap mBitmap;
     public Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-
 
     public PaintView(Context context) {
         super(context);
@@ -68,78 +66,48 @@ public class PaintView extends View {
     public void init(DisplayMetrics metrics){
         int height = metrics.heightPixels;
         int width = metrics.widthPixels;
-
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
-
         currentColor = COLOR_PEN;
     }
 
     public void init2(int width , int height ){
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
-        //nên thay màu bitmap khác với màu nền đi
-
-
         mCanvas.drawColor(-1);
-
         currentColor = COLOR_PEN;
     }
     public void pen(){
-        //BRUSH_SIZE = 10;
         currentColor = COLOR_PEN;
     }
 
     public void eraser(){
-
-        //BRUSH_SIZE = 200;
         currentColor = COLOR_ERASER;
     }
 
     public void clear(){
         paths.clear();
+        deletedPaths.clear();
         mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         pathIndex = -1;
         pen();
         invalidate();
     }
 
-    public void importPhoto(Uri url_value ){
-
-        Bitmap tempBitmap;
-        try {
-            //tempBitmap is Immutable bitmap,
-            //cannot be passed to Canvas constructor
-            tempBitmap = BitmapFactory.decodeStream(
-                    getContentResolver().openInputStream(url_value));
-
-            Bitmap.Config config;
-            if(tempBitmap.getConfig() != null){
-                config = tempBitmap.getConfig();
-            }else{
-                config = Bitmap.Config.ARGB_8888;
-            }
-
-            //bitmapMaster is Mutable bitmap
-
-
-
-            mCanvas = new Canvas(mBitmap);
-            mCanvas.drawBitmap(tempBitmap, 0, 0, null);
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public void redo(){
+        if(!deletedPaths.isEmpty()){
+            mPath = new Path();
+            mPath = deletedPaths.get(deletedPaths.size()-1).getPath();
+            FingerPath fp = new FingerPath(currentColor, BRUSH_SIZE, mPath);
+            //mCanvas.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR);
+            mCanvas.drawPath(fp.getPath(),mPaint);
+            paths.add(fp);
+            pathIndex++;
+            deletedPaths.remove(deletedPaths.size()-1);
+            invalidate();
         }
     }
 
-    private ContentResolver getContentResolver() {
-        return null;
-    }
-
-    private Context getApplicationContext() {
-        return this.getContext();
-    }
 
     private void SaveImage(Bitmap finalBitmap) {
         String root = Environment.getExternalStoragePublicDirectory(
@@ -147,7 +115,6 @@ public class PaintView extends View {
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
         Random generator = new Random();
-
         int n = 10000;
         n = generator.nextInt(n);
         String fname = "Image-"+ n +".jpg";
@@ -156,8 +123,6 @@ public class PaintView extends View {
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            // sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-            //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
             out.flush();
             out.close();
 
@@ -183,10 +148,9 @@ public class PaintView extends View {
 
     public void imageReverse(){
         if(!paths.isEmpty()) {
+            deletedPaths.add(paths.get(pathIndex));
             paths.remove(pathIndex);
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            //for(int i=0;i<paths.size();i++) mCanvas.drawPath(paths.get(i), mPaint);
-            //mCanvas.restore();
             pathIndex--;
             pen();
             invalidate();
@@ -201,7 +165,7 @@ public class PaintView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.save();
         mCanvas.drawColor(Color.TRANSPARENT);
-
+        //deletedPaths.clear();
         for (FingerPath fp : paths){
             mPaint.setColor(fp.getColor());
             mPaint.setStrokeWidth(fp.getStrokeWidth());
@@ -258,8 +222,6 @@ public class PaintView extends View {
                 invalidate();
                 break;
         }
-
-
         return true;
     }
 }

@@ -6,7 +6,16 @@
         android:id="@+id/back"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_subdirectory_arrow_left_24"
-        android:title="Reverse"/>
+        android:title="Reverse"
+        />
+
+    <item
+        android:id="@+id/redo"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_subdirectory_arrow_right_24"
+        android:title="Redo"
+        />
+
     <item
         android:id="@+id/color_black"
         android:icon="@drawable/ic_baseline_circle_black_24"
@@ -31,17 +40,17 @@
         android:id="@+id/color_blue"
         android:icon="@drawable/ic_baseline_circle_blue_24"
         app:showAsAction="always"
-        android:title="Blue" />
+        android:title="Yellow" />
     <item
         android:id="@+id/save"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_save_24"
-        android:title="Eraser"/>
+        android:title="Save"/>
     <item
         android:id="@+id/photo"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_image_24"
-        android:title="Clear"/>
+        android:title="Photo"/>
 
 
 </menu>
